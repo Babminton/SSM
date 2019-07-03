@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+    <!-- mybatis主配置文件 -->
+    <configuration>
+        <!-- 引入 database.properties 文件-->
+        <properties resource="database.properties"/>
+        <!-- 配置mybatis的log实现为LOG4J -->
+        <settings>
+            <setting name="logImpl" value="LOG4J" />
+        </settings>
+
+    <!-- 配置环境 -->
+        <environments default="mysql">
+            <!-- 配置mysql环境 -->
+            <environment id="mysql">
+                <!--配置事务管理，采用JDBC的事务管理  -->
+                <transactionManager type="JDBC"></transactionManager>
+                <!-- POOLED:配置数据库(数据源)，JNDI:基于tomcat的数据源 -->
+                <dataSource type="POOLED">
+                    <!-- 连接数据库的4个基本信息 -->
+                    <property name="driver" value="${driver}"/>
+                    <property name="url" value="${url}"/>
+                    <property name="username" value="${user}"/>
+                    <property name="password" value="${password}"/>
+                </dataSource>
+            </environment>
+        </environments>
+
+        <!--
+           注解配置，此处应该使用class属性指定被注解的dao全限定类名
+        -->
+        <mappers>
+            <mapper class="com.dao.IUserDao"/>
+        </mappers>
+
+</configuration>
