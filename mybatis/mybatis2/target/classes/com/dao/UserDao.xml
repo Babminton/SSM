@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.IUserDao">
+
+<select id="findAllUser" resultType="com.model.User">
+        select * from user;
+</select>
+
+<insert id="saveUser" parameterType="com.model.User">
+    <!-- 配置插入操作后，获取插入数据的id
+         keyProperty  -> 实体属性
+         keyColumn  ->数据表属性
+         保存中获取保存的userid值
+     -->
+
+    <selectKey keyProperty="userid" keyColumn="userid" resultType="int" order="AFTER">
+        select last_insert_id();
+    </selectKey>
+    insert  into user(userid,username) value (#{userid},#{username});
+</insert>
+<update id="updateUser" parameterType="com.model.User">
+     update user set username=#{username} where userid=#{userid};
+</update>
+<delete id="deleteUser" parameterType="int">
+        delete from user where userid=#{id}
+</delete>
+<select id="findById" parameterType="int" resultType="com.model.User">
+                select * from user where userid=#{id}
+</select>
+<select id="findByUsername" parameterType="string" resultType="com.model.User">
+      select * from user where username like "%${value}%"
+</select>
+<select id="findTotall" resultType="int">
+        select count(userid) from user
+</select>
+
+   <!-- OGR表达式
+   写pojo->QueueVo类封装查询条件对象
+   -->
+<select id="findUserByVo" parameterType="com.Queue.QueueVo" resultType="com.model.User">
+      select * from user where username like #{user.username}
+</select>
+
+</mapper>
+
+<!--
+parameterType传入的数据类型
+1.传递简单类型 int string
+2.传递pojo类型 ONGL表达式 Object Graphic Navigation Language
+3.传递pojo包装类型
+-->
+
+
