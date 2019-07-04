@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+    <!-- mybatis主配置文件 -->
+    <configuration>
+        <!-- 引入 database.properties 文件-->
+        <properties resource="database.properties"/>
+
+        <!-- 配置mybatis的log实现为LOG4J -->
+        <settings>
+            <setting name="logImpl" value="LOG4J" />
+        </settings>
+
+    <!-- 使用typeAliases配置别名，只能配置domain中类的别名 -->
+    <typeAliases>
+        <!--typeAlias用于配置别名 type属性指定的是实体类的全限定名 alias属性指定别名，不区别大小写 -->
+        <typeAlias type="com.model.User" alias="user"  />
+    </typeAliases>
+
+
+    <!-- 配置环境 -->
+        <environments default="mysql">
+            <!-- 配置mysql环境 -->
+            <environment id="mysql">
+                <!--配置事务管理，采用JDBC的事务管理  -->
+                <transactionManager type="JDBC"></transactionManager>
+                <!-- POOLED:配置数据库(数据源)，JNDI:基于tomcat的数据源 -->
+                <dataSource type="POOLED">
+                    <!-- 连接数据库的4个基本信息 -->
+                    <property name="driver" value="${driver}"/>
+                    <property name="url" value="${url}"/>
+                    <property name="username" value="${user}"/>
+                    <property name="password" value="${password}"/>
+                </dataSource>
+            </environment>
+        </environments>
+
+        <!-- 指定映射配置文件的位置，每个dao独立的配置文件 -->
+        <mappers>
+            <mapper resource="com/dao/UserDao.xml"/>
+        </mappers>
+
+</configuration>
